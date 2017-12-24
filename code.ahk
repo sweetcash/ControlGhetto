@@ -6324,7 +6324,7 @@ Utf8ToAnsi(ByRef Utf8String, CodePage = 1251)
 }
 }
 #IfWinActive GTA:SA:MP
-version = 1.04
+version = 1.05
 scriptName = ControlGhetto
 gStats = 0
 
@@ -6496,7 +6496,8 @@ dialog =
 {4271FF}3.{FFFFFF} Список команд
 {4271FF}4.{FFFFFF} Онлайн в %n2Band%
 {4271FF}5.{FFFFFF} Обновление статистики
-{4271FF}6.{FFFFFF} Разработчик: Sergey Lani (клик для связи)
+{4271FF}6.{FFFFFF} Подача объявления
+{4271FF}7.{FFFFFF} Разработчик: Sergey Lani (клик для связи)
 )
 goto dDialog
 return
@@ -6724,8 +6725,9 @@ if (gBand >= 6)
 menu := 3
 dialog =
 (
-{4271FF}1.{FFFFFF} На 3 ранг
-{4271FF}2.{FFFFFF} На 8 ранг
+{4271FF}1.{FFFFFF} На 1 ранг
+{4271FF}2.{FFFFFF} На 3 ранг
+{4271FF}3.{FFFFFF} На 8 ранг
 )
 showDialog("2", "{FFFF66}" dCaption " | " scriptName " {FFFFFF}v" version, dialog, "Ок", "Выход")
 return
@@ -6737,10 +6739,20 @@ AddChatMessageEx("FFFFFF", "{FFFFFF}• {FFC800}[Подсказка] {ffffff}Н�
 Input, blabla, V, {vk6B}
 SendChat("/rang " pid)
 Sleep 170
-SendInput, {down 2}
+SendInput, {enter}
 return
 
 Punkt2_4_2:
+SendChat("/invite " pid)
+Sleep 150
+AddChatMessageEx("FFFFFF", "{FFFFFF}• {FFC800}[Подсказка] {ffffff}Нажмите {FFFEAC}Numpad +{FFFFFF} что-бы продолжить.")
+Input, blabla, V, {vk6B}
+SendChat("/rang " pid)
+Sleep 170
+SendInput, {down 2}
+return
+
+Punkt2_4_3:
 SendChat("/invite " pid)
 Sleep 150
 AddChatMessageEx("FFFFFF", "{FFFFFF}• {FFC800}[Подсказка] {ffffff}Нажмите {FFFEAC}Numpad +{FFFFFF} что-бы продолжить.")
@@ -6848,6 +6860,98 @@ if (gStats = 0)
 return
 
 Punkt6:
+if (gStats = 1)
+{
+	if (gBand = 1)
+	{
+		goto gAd
+	}
+	if (gBand = 2)
+	{
+		goto gAd
+	}
+	if (gBand = 3)
+	{
+		goto gAd
+	}
+	if (gBand = 4)
+	{
+		goto gAd
+	}
+	if (gBand = 5)
+	{
+		goto gAd
+	}
+    if (gBand = 6)
+    {
+        goto gAd
+    }
+    if (gBand = 7)
+    {
+        goto gAd
+    }
+    if (gBand = 8)
+    {
+        goto gAd
+    }
+	AddChatMessageEx("FFFFFF", "{FFFFFF}• {FFC800}[Подсказка] {ffffff}Вы {FFFEAC}не{FFFFFF} бандит. Это Вам недоступно.")
+}
+if (gStats = 0)
+{
+	goto ErrorStats
+}
+return
+
+gAd:
+Loop
+{
+cLine := getChatLineEx("0")
+Needle = Объявление проверил
+IfInString, cLine, %Needle%
+{
+    goto gAd1
+}
+}
+return
+
+gAd1:
+if (gBand = 1)
+{
+    SendChat("/ad Проходит набор в бейсбольный клуб Rifa. Навигатор: 5-8")
+}
+if (gBand = 2)
+{
+    SendChat("/ad Проходит набор в бейсбольный клуб Ballas. Навигатор: 5-6")
+}
+if (gBand = 3)
+{
+    SendChat("/ad Проходит набор в бейсбольный клуб Vagos. Навигатор: 5-7")
+}
+if (gBand = 4)
+{
+    SendChat("/ad Проходит набор в бейсбольный клуб Grove. Навигатор: 5-5")
+}
+if (gBand = 5)
+{
+    SendChat("/ad Проходит набор в бейсбольный клуб Aztek. Навигатор: 5-9")
+}
+if (gBand = 6)
+{
+    SendChat("/ad Проходит собеседование в гольф-клуб Mexico. Навигатор: 5-2")
+}
+if (gBand = 7)
+{
+    SendChat("/ad Проходит собеседование в гольф-клуб Columbia. Навигатор: 5-1")
+}
+if (gBand = 8)
+{
+    SendChat("/ad Проходит собеседование в суши-бар Yakuza. Навигатор: 5-3")
+}
+Sleep 170
+SendInput, {enter}
+return
+
+Punkt7:
 Sleep 210
 Run, https://vk.com/im?sel=403560256
 return
@@ -6901,6 +7005,7 @@ dialog =
 %str5%
 %str6%
 )
+Sleep 210
 goto dDialog
 return
 
